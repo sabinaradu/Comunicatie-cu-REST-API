@@ -1,0 +1,41 @@
+Radu Sabina - 321CB - Tema 3 Client Web. Comunicatie cu REST API -
+
+Pentru realizarea acestei teme, am creat un fisier client.c si un Makefile. Am folosit 
+scheletul laboratorului 10 si fisierele ajutatoare ale acestuia. Dupa ce am rulat cu 
+make si ./client, se citesc de la tastatura comenzile mentionate in 
+cerinta (register, login, enter_library etc).
+
+Pentru register si login, am citit de la tastatura username si password. Am
+creat un obiect json, folosindu-ma de functiile din biblioteca parson, pentru a
+fi mai usor si mai intuitiv. Obiectul este returnat, convertit in string si
+trimis ca parametru in functia postMessage.
+
+Functia de postMessage trimite un mesaj de tip post, getMessage trimite mesaj de
+tip get. Functiile postMessage, getMessage primesc parametri necesari pentru a
+crea mesajul, se deschide un socket, host ul fiind cel din enunt, se creeaza
+mesajul completat corespunzator, se trimite la server, primeste raspunsul de la
+server, se afiseaza raspunsul, se inchide conexiunea cu serverul si se
+returneaza raspunsul.
+
+Pentru comanda login, extrag cookie ul din raspunsul serverului pentru a verifica 
+daca clientul este logat (daca cookie este NULL, clientul nu e logat).
+
+Pentru comanda enter_library, se trimite mesaj cu cookie ul din care se extrage
+ token ul care va fi folosit pentru a se verifica logarea clientului, dar si accesul 
+acestuia la biblioteca.
+
+Pentru comanda get_book si get_books, se verifica ca tokenul si cookie ul sa 
+nu fie NULL. Pentru get_book, lipesc id-ul citit de la tastaura la url si se trimite 
+mesajul de tip get.
+
+Pentru comanda add_book, se citesc de la tastatura informatiile despre carte. 
+Se formeaza un string din obiectul json care contine informatia despre o carte 
+noua si se trimite un mesaj de tip post cu informatia despre cartea noua.
+
+Pentru comanda delete_book, se citeste id-ul de la tastatura si se trimite mesajul 
+la server. 
+
+Pentru comanda logout, se trimite un mesaj de tip get apoi se seteaza cookie si 
+token pe NULL pentru a se putea verificate erorile de logare.
+
+Iar cand este apelata comanda exit, se opreste bucla.
